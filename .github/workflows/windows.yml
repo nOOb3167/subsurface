@@ -1,11 +1,5 @@
 name: Windows
-on:
-  push:
-    branches:
-    - master
-  pull_request:
-    branches:
-    - master
+on: [push, pull_request]
 
 jobs:
   buildWindows:
@@ -34,13 +28,11 @@ jobs:
         grep "Built target installer" build.log
 
     - name: prepare PR artifacts
-      if: github.event_name == 'pull_request'
       run: |
         mkdir -p Windows-artifacts
         mv ./subsurface-installer.exe ./subsurface.exe ./subsurface.exe.debug ./smtk2ssrf-installer.exe ./smtk2ssrf.exe Windows-artifacts
 
     - name: PR artifacts
-      if: github.event_name == 'pull_request'
       uses: actions/upload-artifact@master
       with:
         name: Windows-artifacts
