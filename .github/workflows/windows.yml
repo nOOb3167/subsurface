@@ -30,7 +30,7 @@ jobs:
     - name: prepare PR artifacts
       run: |
         mkdir -p Windows-artifacts
-        mv ./subsurface-installer.exe ./subsurface.exe ./subsurface.exe.debug ./smtk2ssrf-installer.exe ./smtk2ssrf.exe Windows-artifacts
+        mv ./subsurface-installer.exe ./subsurface.exe ./subsurface.exe.debug Windows-artifacts
 
     - name: PR artifacts
       uses: actions/upload-artifact@master

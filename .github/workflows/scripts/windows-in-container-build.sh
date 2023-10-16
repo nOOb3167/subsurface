@@ -21,10 +21,3 @@ bash -ex ../subsurface/packaging/windows/mxe-based-build.sh installer
 # in the publish step of the GitHub Action
 mv subsurface/subsurface.exe* ${GITHUB_WORKSPACE}/
 mv subsurface/subsurface-*.exe ${GITHUB_WORKSPACE}/subsurface-installer.exe
-
-bash -ex ../subsurface/packaging/windows/smtk2ssrf-mxe-build.sh -a -i
-
-# the strange two step move is in order to get predictable names to use
-# in the publish step of the GitHub Action
-mv smtk-import/smtk2ssrf.exe ${GITHUB_WORKSPACE}/
-mv smtk-import/smtk2ssrf*.exe ${GITHUB_WORKSPACE}/smtk2ssrf-installer.exe
