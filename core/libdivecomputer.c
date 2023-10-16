@@ -1146,6 +1146,14 @@ static int cancel_cb(void *userdata)
 	return import_thread_cancelled;
 }
 
+extern void passcode (unsigned char data[], size_t size, void *userdata);
+
+static void auth_cb (dc_device_t *device, unsigned char data[], size_t size, void *userdata)
+{
+	passcode(data, size, userdata);
+	printf("Passcode: %s\n", data);
+}
+
 static const char *do_device_import(device_data_t *data)
 {
 	dc_status_t rc;
@@ -1163,6 +1171,8 @@ static const char *do_device_import(device_data_t *data)
 	rc = dc_device_set_cancel(device, cancel_cb, data);
 	if (rc != DC_STATUS_SUCCESS)
 		return translate("gettextFromC", "Error registering the cancellation handler.");
+
+	rc = dc_device_set_auth (device, auth_cb, data);
 
 	if (data->libdc_dump) {
 		dc_buffer_t *buffer = dc_buffer_new(0);

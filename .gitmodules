@@ -1,4 +1,4 @@
 [submodule "libdivecomputer"]
 	path = libdivecomputer
-	url = https://github.com/libdivecomputer/libdivecomputer.git
-	branch = master
+	url = https://github.com/jefdriesen/libdivecomputer.git
+	branch = auth

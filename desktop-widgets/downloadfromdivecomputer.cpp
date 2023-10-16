@@ -20,6 +20,19 @@
 #include <QShortcut>
 #include <QTimer>
 #include <QUndoStack>
+#include <QInputDialog>
+
+extern "C" void passcode (unsigned char data[], size_t size, void *userdata)
+{
+	bool ok;
+	QString text = QInputDialog::getText(nullptr, "Passcode", "Passcode:", QLineEdit::Normal, "", &ok);
+
+	if (ok) {
+		strncpy ((char *) data, qPrintable(text), size);
+	} else {
+		memset (data, 0, size);
+	}
+}
 
 static bool is_vendor_searchable(QString vendor)
 {
