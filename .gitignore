@@ -41,3 +41,4 @@ packaging/ios/Info.plist
 packaging/ios/Qt
 packaging/ios/asset_catalog_compiler.Info.plist
 appdata/subsurface.appdata.xml
+/.vs
