@@ -7,6 +7,7 @@
 #include "mainwindow.h"
 
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QMessageBox>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QDesktopWidget>

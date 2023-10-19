@@ -22,24 +22,13 @@
 #include <QUndoStack>
 #include <QInputDialog>
 
-extern "C" void passcode (unsigned char data[], size_t size, void *userdata)
-{
-	bool ok;
-	QString text = QInputDialog::getText(nullptr, "Passcode", "Passcode:", QLineEdit::Normal, "", &ok);
-
-	if (ok) {
-		strncpy ((char *) data, qPrintable(text), size);
-	} else {
-		memset (data, 0, size);
-	}
-}
-
 static bool is_vendor_searchable(QString vendor)
 {
 	return vendor == "Uemis" || vendor == "Garmin";
 }
 
 DownloadFromDCWidget::DownloadFromDCWidget(QWidget *parent) : QDialog(parent, QFlag(0)),
+	authDialog(this),
 	downloading(false),
 	previousLast(0),
 	timer(new QTimer(this)),
@@ -49,6 +38,7 @@ DownloadFromDCWidget::DownloadFromDCWidget(QWidget *parent) : QDialog(parent, QF
 #endif
 	currentState(INITIAL)
 {
+	authDialog.setObjectName("authDialog");
 	diveImportedModel = new DiveImportedModel(this);
 	vendorModel.setStringList(vendorList);
 	QShortcut *close = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_W), this);
