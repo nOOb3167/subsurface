@@ -1146,14 +1146,6 @@ static int cancel_cb(void *userdata)
 	return import_thread_cancelled;
 }
 
-extern void passcode (unsigned char data[], size_t size, void *userdata);
-
-static void auth_cb (dc_device_t *device, unsigned char data[], size_t size, void *userdata)
-{
-	passcode(data, size, userdata);
-	printf("Passcode: %s\n", data);
-}
-
 static const char *do_device_import(device_data_t *data)
 {
 	dc_status_t rc;
@@ -1171,8 +1163,6 @@ static const char *do_device_import(device_data_t *data)
 	rc = dc_device_set_cancel(device, cancel_cb, data);
 	if (rc != DC_STATUS_SUCCESS)
 		return translate("gettextFromC", "Error registering the cancellation handler.");
-
-	rc = dc_device_set_auth (device, auth_cb, data);
 
 	if (data->libdc_dump) {
 		dc_buffer_t *buffer = dc_buffer_new(0);
@@ -1480,7 +1470,7 @@ static dc_status_t sync_divecomputer_time(dc_device_t *device)
 	return dc_device_timesync(device, &now);
 }
 
-const char *do_libdivecomputer_import(device_data_t *data)
+const char *do_libdivecomputer_import(device_data_t *data, dc_authfunc_data_t *auth)
 {
 	dc_status_t rc;
 	const char *err;
@@ -1509,6 +1499,8 @@ const char *do_libdivecomputer_import(device_data_t *data)
 		fprintf(data->libdc_logfile, "Subsurface: v%s, ", subsurface_git_version());
 		fprintf(data->libdc_logfile, "built with libdivecomputer v%s\n", dc_version(NULL));
 	}
+
+	dc_context_set_authfunc(data->context, auth->func, auth->userdata);
 
 	err = translate("gettextFromC", "Unable to open %s %s (%s)");
 
